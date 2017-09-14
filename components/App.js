@@ -1,7 +1,6 @@
 import React from 'react'
 import About from "./About";
-import NewItemForm from "./NewItemForm";
-import ItemList from "./ItemList";
+import ItemsComponent from "./ItemsComponent";
 
 class App extends React.Component {
 
@@ -9,8 +8,7 @@ class App extends React.Component {
     return (
       <div>
         <About />
-        <NewItemForm />
-        <ItemList />
+        <ItemsComponent />
       </div>
     )
   }

@@ -5,7 +5,10 @@ class NewItemForm extends React.Component {
   render() {
     return (
       <div>
-        New Item Form
+        <form>
+          <input type="text" />
+          <input type="submit" />
+        </form>
       </div>
     )
   }
