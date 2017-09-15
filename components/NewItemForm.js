@@ -5,8 +5,8 @@ class NewItemForm extends React.Component {
   render() {
     return (
       <div>
-        <form>
-          <input type="text" />
+        <form onSubmit={this.props.onSubmit}>
+          <input type="text" onChange={this.props.onChange} />
           <input type="submit" />
         </form>
       </div>

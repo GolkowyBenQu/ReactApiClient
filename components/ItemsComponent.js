@@ -7,7 +7,10 @@ class ItemsComponent extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {items: []}
+    this.state = {
+      items: [],
+      newItem: {}
+    }
   }
 
   componentDidMount() {
@@ -26,47 +29,68 @@ class ItemsComponent extends React.Component {
   onSubmit(event) {
     event.preventDefault()
 
-    const email = encodeURIComponent(this.state.user.email)
-    const password = encodeURIComponent(this.state.user.password)
-    const formData = `email=${email}&password=${password}`
+    const item = encodeURIComponent(this.state.newItem)
 
     const config = {
       method: 'POST',
       credentials: 'same-origin',
       headers: {
-        // 'Accept': 'application/json',
-        // 'Content-Type': 'application/json'
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      // body: formData
       body: JSON.stringify({
-        email: email,
-        password: password
+        item: item
       })
     }
 
-    const promise = fetch('http://127.0.0.1:8000/', config)
+    const promise = fetch('http://127.0.0.1:8000/items.php', config)
 
     promise
       .catch(error => console.log(error))
-      .then(result => console.log(result))
+      .then(result => {
+        let items = this.state.items
+        items.push(item)
+
+        this.setState({
+          items: items
+        })
+      })
   }
 
   onChange(event) {
-    const field = event.target.name
-    const user = this.state.user
-    user[field] = event.target.value
+    const item = event.target.value
 
     this.setState({
-      user
+      newItem: item
+    })
+  }
+
+  onDeleteClick(event) {
+    let item = event.target.dataset.value
+    let items = this.state.items
+
+    for (const itemKey of Object.keys(items)) {
+      if (items[itemKey] == item) {
+        console.log(items[itemKey])
+        items.splice(itemKey, 1)
+      }
+    }
+
+    this.setState({
+      items: items
     })
   }
 
   render() {
     return (
       <div>
-        <NewItemForm onSubmit={this.onSubmit.bind(this)} onChange={this.onChange.bind(this)} />
-        <ItemList items={this.state.items}/>
+        <NewItemForm
+          onSubmit={this.onSubmit.bind(this)}
+          onChange={this.onChange.bind(this)}
+        />
+        <ItemList
+          items={this.state.items}
+          onDeleteClick={this.onDeleteClick.bind(this)}
+        />
       </div>
     )
   }

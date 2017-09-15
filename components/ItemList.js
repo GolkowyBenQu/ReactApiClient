@@ -1,11 +1,16 @@
 import React from 'react'
+import OneItem from './OneItem'
 
 const ItemList = (props) => {
   return (
     <ul>
       {props.items.map(
         (item, index) => {
-          return <li key={ index }>{ item }</li>
+          return <OneItem
+            key={index}
+            item={item}
+            onClick={props.onDeleteClick}
+          />
         })}
     </ul>
   )
